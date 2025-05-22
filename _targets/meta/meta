@@ -1,0 +1,15 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+confusion_matrix|stem|3bfdae46292617da|fc0ce44b9dde4845|ad208d307d3533fc|1477231441||t20230.8856236074s|134585a292f8fb45|154601|rds|local|vector|||0.021||
+confusion_matrix_single_multiple|stem|8afdf31441aafae1|15675657a7acacfb|a2a0dda0d710681e|184551207||t20230.8909704919s|c70001ca69ce3cd2|154549|rds|local|vector|||0.022||
+data_clean|stem|3de35953cff7540e|80d26efbeb37c852|2c530c1562a7fbd1|-1454182835||t20230.8767234087s|3a8472313e74b5d6|2521|rds|local|vector|||1.307|There was 1 warning in mutate.ℹ In argument sherp_ct_mean  as.numericsherp_ct_mean.Caused by warning NAs introduced by coercion. There was 1 warning in mutate.ℹ In argument time_since_last_bloodmeal   as.numerictime_since_last_bloodmeal.Caused by warning NAs introduced by coercion|
+data_pca|stem|97984e059934da61|72ddc0d4c6221c71|38857d09b9610adb|-1455305986||t20230.869322732s|44cc7ba4f1570557|3827|rds|local|vector|||0.064|There was 1 warning in mutate.ℹ In argument time_since_last_bloodmeal   as.numerictime_since_last_bloodmeal.Caused by warning NAs introduced by coercion|
+lda_fit|stem|a31dae5618e3faf9|bca5a86a67daf8dc|efc33b3348adc847|1504269219||t20230.8856227242s|cbdb5adf1a501d98|5525|rds|local|vector|||0.027||
+lda_fit_single_multiple|stem|a3d884ecc672af4b|8e75df7d3ec969bc|90fe8f68288a221e|1210688343||t20230.8909695564s|870387e3c94541b4|5406|rds|local|vector|||0.029||
+lda_metrics|stem|f98965eda58d71db|dfc748dce8455b2d|ad208d307d3533fc|214609545||t20230.88685739s|981ec44736cc86ff|248|rds|local|vector|||0.006||
+lda_predictions|stem|817e261095f280bd|553196fbe952cd9b|fb78307296404776|-1045033736||t20230.885622815s|e35055be54e3650a|1206|rds|local|vector|||0.005||
+lda_predictions_single_multiple|stem|9b57e828cfa0fbca|b538b321a5ffaa51|96924d2964d38c5b|1367608863||t20230.890969649s|aee7d81f36813c54|1187|rds|local|vector|||0.006||
+plot_lda|stem|f258ae2ef2498662|8073bd2fb47ddaa8|91285c88415b1990|1019986887||t20230.877568472s|1839ccb7c116b198|112582|rds|local|vector|||0.015||
+plot_pca|stem|dec4e626cd70710c|55a66b37f867059b|a0271f895de2485c|2055886894||t20230.870181033s|d797647b0b5c0808|106627|rds|local|vector|||0.027||
+train_test_data|stem|3e74b0450dcccc5a|c99a96a4c6d2180c|91285c88415b1990|1408466605||t20230.8856223588s|d6efdce7164f9a55|2699|rds|local|vector|||0.006||
+train_test_data_single_multiple|stem|c4247bf45b357305|bc34161610878434|91285c88415b1990|987661775||t20230.8909691737s|719a9550ea886aed|2697|rds|local|vector|||0.007||
+lda_metrics_single_multiple|stem|12912c6f5b087ac3|63c130a94f6393a3|a2a0dda0d710681e|389143810||t20230.8914603248s|9225f31f1982eafe|240|rds|local|vector|||0.006||
