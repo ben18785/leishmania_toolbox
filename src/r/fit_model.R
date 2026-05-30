@@ -113,8 +113,8 @@ plot_bespoke_with_boundary <- function(df) {
   )
   pred <- predict(lda_model, newdata = grid)
   grid$pred_class  <- pred$class
-  # Posterior probability of the "single" class; the 0.5 contour is the boundary
-  grid$prob_single <- pred$posterior[, "single"]
+  # Posterior probability of the "iBM1" class; the 0.5 contour is the boundary
+  grid$prob_single <- pred$posterior[, "iBM1"]
 
   df %>%
     ggplot(aes(x = sherp_normalised, y = hpb_normalised)) +
@@ -122,10 +122,12 @@ plot_bespoke_with_boundary <- function(df) {
     geom_contour(data = grid, aes(z = prob_single), breaks = 0.5,
                  colour = "grey20", linewidth = 0.6) +
     geom_point(aes(color = bloodmeal_type, shape = timepoint)) +
-    xlab("SHERP normalised") +
-    ylab("HPB normalised") +
-    scale_color_brewer("Bloodmeal count", palette = "Dark2") +
-    scale_fill_brewer("Bloodmeal count", palette = "Dark2") +
+    xlab(expression(italic("SHERP") ~ "normalized")) +
+    ylab(expression(italic("HPB") ~ "normalized")) +
+    scale_color_brewer("Bloodmeal count", palette = "Dark2",
+                       labels = c("iBM1", "BMS+")) +
+    scale_fill_brewer("Bloodmeal count", palette = "Dark2",
+                      labels = c("iBM1", "BMS+")) +
     scale_shape("Timepoint")
 }
 
