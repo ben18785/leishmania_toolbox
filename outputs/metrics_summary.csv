@@ -1,0 +1,7 @@
+dataset,predictors,accuracy,f_meas,precision,recall
+artificial,SHERP + HPB,0.87,0.89,0.92,0.85
+artificial,HPB only,0.81,0.84,0.87,0.8
+artificial,SHERP only,0.87,0.89,0.92,0.85
+hamster,SHERP + HPB,0.82,0.86,0.94,0.79
+hamster,HPB only,0.79,0.82,0.93,0.74
+hamster,SHERP only,0.79,0.82,0.93,0.74

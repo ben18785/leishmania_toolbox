@@ -378,6 +378,58 @@ list(
   tar_target(preds_artificial_field,
              create_predictions(
                lda_fit_artificial_sensitivity,
-               df_field))
-  
+               df_field)),
+
+  # ---- Single-covariate LDA models (HPB-only and SHERP-only) ----
+  # These reuse the existing train/test splits (train_test_data_hamster and
+  # train_test_data_artificial) so predictions are made on exactly the same
+  # held-out test sets as the corresponding two-predictor models.
+
+  # Hamster: HPB only
+  tar_target(lda_fit_hpb_hamster,
+             fit_lda_model_subset(train_test_data_hamster$train, "hpb_normalised")),
+  tar_target(preds_hpb_hamster,
+             create_predictions(lda_fit_hpb_hamster, train_test_data_hamster$test)),
+  tar_target(metrics_hpb_hamster, create_metrics(preds_hpb_hamster)),
+
+  # Hamster: SHERP only
+  tar_target(lda_fit_sherp_hamster,
+             fit_lda_model_subset(train_test_data_hamster$train, "sherp_normalised")),
+  tar_target(preds_sherp_hamster,
+             create_predictions(lda_fit_sherp_hamster, train_test_data_hamster$test)),
+  tar_target(metrics_sherp_hamster, create_metrics(preds_sherp_hamster)),
+
+  # Artificial: HPB only
+  tar_target(lda_fit_hpb_artificial,
+             fit_lda_model_subset(train_test_data_artificial$train, "hpb_normalised")),
+  tar_target(preds_hpb_artificial,
+             create_predictions(lda_fit_hpb_artificial, train_test_data_artificial$test)),
+  tar_target(metrics_hpb_artificial, create_metrics(preds_hpb_artificial)),
+
+  # Artificial: SHERP only
+  tar_target(lda_fit_sherp_artificial,
+             fit_lda_model_subset(train_test_data_artificial$train, "sherp_normalised")),
+  tar_target(preds_sherp_artificial,
+             create_predictions(lda_fit_sherp_artificial, train_test_data_artificial$test)),
+  tar_target(metrics_sherp_artificial, create_metrics(preds_sherp_artificial)),
+
+  # ---- Combined metrics summary ----
+  # One tidy data frame of test-set metrics across both datasets and all three
+  # predictor sets (SHERP + HPB, HPB only, SHERP only), then written to CSV.
+  tar_target(metrics_summary, bind_rows(
+    label_metrics(metrics_artificial,       "artificial", "SHERP + HPB"),
+    label_metrics(metrics_hpb_artificial,   "artificial", "HPB only"),
+    label_metrics(metrics_sherp_artificial, "artificial", "SHERP only"),
+    label_metrics(metrics_hamster,          "hamster",    "SHERP + HPB"),
+    label_metrics(metrics_hpb_hamster,      "hamster",    "HPB only"),
+    label_metrics(metrics_sherp_hamster,    "hamster",    "SHERP only")
+  ) %>%
+    select(-.estimator) %>%
+    pivot_wider(names_from = .metric, values_from = .estimate)),
+  tar_target(file_metrics_summary, {
+    metrics_summary %>%
+      mutate(across(where(is.numeric), ~ round(.x, 2))) %>%
+      write_csv("outputs/metrics_summary.csv")
+  })
+
 )

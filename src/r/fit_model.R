@@ -42,6 +42,14 @@ fit_lda_model <- function(train) {
     lda_fit
 }
 
+# Fit an LDA model on a subset of predictors (e.g. a single covariate),
+# keeping the outcome. Reuse the existing train object so that predictions
+# can be made on the same held-out test set as the full model.
+fit_lda_model_subset <- function(train, varnames) {
+  train_subset <- train %>% select(bloodmeal_type, all_of(varnames))
+  fit_lda_model(train_subset)
+}
+
 create_predictions <- function(fit, test) {
     preds <- predict(fit, test) %>%
       bind_cols(test)
@@ -56,6 +64,13 @@ create_confusion_matrix <- function(preds) {
 create_metrics <- function(preds) {
   metrics <- metric_set(accuracy, f_meas, precision, recall)
   metrics(preds, truth = bloodmeal_type, estimate = .pred_class)
+}
+
+# Tag a yardstick metrics tibble with the dataset and predictor set so that
+# metrics from different models can be row-bound into a single summary table.
+label_metrics <- function(metrics, dataset, predictors) {
+  metrics %>%
+    mutate(dataset = dataset, predictors = predictors, .before = 1)
 }
 
 plot_lda_decision_boundary_function <- function(df) {
