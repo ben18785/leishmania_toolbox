@@ -1,4 +1,3 @@
-
 plot_raw_data <- function(df) {
   df %>% 
     ggplot(aes(x = sherp_normalised, y = hpb_normalised)) +
@@ -31,7 +30,6 @@ fit_lda_model <- function(train) {
     lda_spec <- parsnip::discrim_linear() %>%
       set_engine("MASS") %>%
       set_mode("classification")
-
     lda_rec <- recipe(bloodmeal_type ~ ., data = train)
     
     lda_wf <- workflow() %>%
@@ -65,7 +63,6 @@ plot_lda_decision_boundary_function <- function(df) {
     hpb_normalised  = seq(min(df$hpb_normalised), max(df$sherp_normalised), length.out = 200)
   )
   
-  # can't do this from other tidymodels fit
   df_narrow <- df %>% select(bloodmeal_type, sherp_normalised, hpb_normalised)
   lda_model <- MASS::lda(bloodmeal_type ~ ., data = df_narrow)
   
@@ -80,33 +77,29 @@ plot_lda_decision_boundary_function <- function(df) {
     scale_color_brewer("Bloodmeal count", palette = "Dark2") +
     scale_fill_brewer("Bloodmeal count", palette = "Dark2") +
     scale_shape("Bloodmeal count")
-
 }
 
-# Bespoke hamster scatter (shape = timepoint) with the LDA decision
-# boundary overlaid as a contour line over a faint predicted-class region.
+# Esta es la función que modificamos con tus cambios
 plot_bespoke_with_boundary <- function(df) {
-
-  # Fit LDA on the two predictors used in the bespoke plot
   df_narrow <- df %>% select(bloodmeal_type, sherp_normalised, hpb_normalised)
   lda_model <- MASS::lda(bloodmeal_type ~ ., data = df_narrow)
-
-  # Prediction grid spanning the observed range of both axes
+  
   grid <- expand.grid(
     sherp_normalised = seq(min(df$sherp_normalised), max(df$sherp_normalised), length.out = 200),
     hpb_normalised   = seq(min(df$hpb_normalised),  max(df$hpb_normalised),  length.out = 200)
   )
   pred <- predict(lda_model, newdata = grid)
   grid$pred_class  <- pred$class
-  # Posterior probability of the "iBM1" class; the 0.5 contour is the boundary
-  grid$prob_single <- pred$posterior[, "iBM1"]
-
+  grid$prob_single <- pred$posterior[, "single"]
+  
   df %>%
     ggplot(aes(x = sherp_normalised, y = hpb_normalised)) +
     geom_tile(data = grid, aes(fill = pred_class), alpha = 0.15, show.legend = FALSE) +
     geom_contour(data = grid, aes(z = prob_single), breaks = 0.5,
                  colour = "grey20", linewidth = 0.6) +
     geom_point(aes(color = bloodmeal_type, shape = timepoint)) +
+    
+    # Aquí están tus cambios:
     xlab(expression(italic("SHERP") ~ "normalized")) +
     ylab(expression(italic("HPB") ~ "normalized")) +
     scale_color_brewer("Bloodmeal count", palette = "Dark2",
@@ -115,4 +108,3 @@ plot_bespoke_with_boundary <- function(df) {
                       labels = c("iBM1", "BMS+")) +
     scale_shape("Timepoint")
 }
-
