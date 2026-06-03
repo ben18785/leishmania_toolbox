@@ -3,10 +3,14 @@ plot_raw_data <- function(df) {
   df %>% 
     ggplot(aes(x = sherp_normalised, y = hpb_normalised)) +
     geom_point(aes(color = bloodmeal_type, shape=bloodmeal_type)) +
-    xlab("SHERP normalised") +
-    ylab("HPB normalised") +
-    scale_color_brewer("Bloodmeal count", palette = "Dark2") +
-    scale_shape("Bloodmeal count")
+    xlab("SHERP normalized") +
+    ylab("HPB normalized") +
+    scale_color_brewer("Blood meal event", palette = "Dark2") +
+    scale_shape("Blood meal event") +
+    theme(text = element_text(size = 14),
+          axis.title = element_text(size = 16),
+          legend.title = element_text(size = 14),
+          legend.text = element_text(size = 12))
 }
 
 create_train_test_sets <- function(df, varnames=c("sherp_normalised", "hpb_normalised")) {
@@ -90,11 +94,18 @@ plot_lda_decision_boundary_function <- function(df) {
     geom_tile(data = grid, aes(x = sherp_normalised, y = hpb_normalised, fill = bloodmeal_type), alpha = 0.3) +
     geom_point(data = df, aes(x = sherp_normalised, y = hpb_normalised, color = bloodmeal_type,
                               shape = bloodmeal_type), size = 2) +
-    xlab("SHERP normalised") +
-    ylab("HPB normalised") +
-    scale_color_brewer("Bloodmeal count", palette = "Dark2") +
-    scale_fill_brewer("Bloodmeal count", palette = "Dark2") +
-    scale_shape("Bloodmeal count")
+    xlab("SHERP normalized") +
+    ylab("HPB normalized") +
+    scale_color_brewer("Blood meal event", palette = "Dark2",
+                       labels = c("single" = "iBM1", "multiple" = "BMS+")) +
+    scale_fill_brewer("Blood meal event", palette = "Dark2",
+                      labels = c("single" = "iBM1", "multiple" = "BMS+")) +
+    scale_shape("Blood meal event",
+                labels = c("single" = "iBM1", "multiple" = "BMS+")) +
+    theme(text = element_text(size = 14),
+          axis.title = element_text(size = 16),
+          legend.title = element_text(size = 14),
+          legend.text = element_text(size = 12))
 
 }
 
@@ -124,10 +135,14 @@ plot_bespoke_with_boundary <- function(df) {
     geom_point(aes(color = bloodmeal_type, shape = timepoint)) +
     xlab(expression(italic("SHERP") ~ "normalized")) +
     ylab(expression(italic("HPB") ~ "normalized")) +
-    scale_color_brewer("Bloodmeal count", palette = "Dark2",
+    scale_color_brewer("Blood meal event", palette = "Dark2",
                        labels = c("iBM1", "BMS+")) +
-    scale_fill_brewer("Bloodmeal count", palette = "Dark2",
+    scale_fill_brewer("Blood meal event", palette = "Dark2",
                       labels = c("iBM1", "BMS+")) +
-    scale_shape("Timepoint")
+    scale_shape("Hours post-blood meal event") +
+    theme(text = element_text(size = 14),
+          axis.title = element_text(size = 16),
+          legend.title = element_text(size = 14),
+          legend.text = element_text(size = 12))
 }
 
